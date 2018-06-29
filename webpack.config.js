@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackInclueAssetsPlugin = require("html-webpack-include-assets-plugin");
 
@@ -27,6 +28,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ProgressBarPlugin(),
     new webpack.DllReferencePlugin({
       context: __dirname,
       manifest: require("./dist/vendors.manifest.json")
@@ -36,11 +38,11 @@ module.exports = {
       template: path.resolve(__dirname, "public", "index.html")
     }),
     new HtmlWebpackInclueAssetsPlugin({
-      assets: ["dist/vendors.dll.js"],
+      assets: ["vendors.dll.js"],
       files: ["index.html"],
       append: false,
       hash: true
-    }),
+    })
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),
