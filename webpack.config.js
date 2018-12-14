@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackInclueAssetsPlugin = require("html-webpack-include-assets-plugin");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 //配置多入口
 const pages = [
@@ -25,7 +25,7 @@ const htmlWebpackPlugins = pages.map(({ name }) => {
   return new HtmlWebpackPlugin({
     template: path.resolve(__dirname, "public", "index.html"),
     filename: path.resolve(__dirname, `dist/${name}.html`),
-    chunks: [name]
+    chunks: [name] // 指定引入的js文件
   });
 });
 
@@ -60,9 +60,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['dist'],{
+    new CleanWebpackPlugin(["dist"], {
       root: path.resolve(__dirname),
-      exclude: ['dll'],
+      exclude: ["dll"],
       verbose: true,
       dry: false
     }),
@@ -73,7 +73,7 @@ module.exports = {
       context: path.resolve(__dirname, "dist/dll"),
       manifest: require("./dist/dll/vendors.manifest.json")
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
     // new HtmlWebpackPlugin({
     //   template: path.resolve(__dirname, "public", "index.html"),
     // }),
