@@ -24,7 +24,8 @@ const entry = pages.reduce((prevObj, { name }) => {
 const htmlWebpackPlugins = pages.map(({ name }) => {
   return new HtmlWebpackPlugin({
     template: path.resolve(__dirname, "public", "index.html"),
-    filename: path.resolve(__dirname, `dist/${name}.html`)
+    filename: path.resolve(__dirname, `dist/${name}.html`),
+    chunks: [name]
   });
 });
 
@@ -35,7 +36,7 @@ const htmlWebpackInclueAssetsPlugins = pages.map(({ name }) => {
     append: false,
     hash: true
   });
-}, {});
+});
 
 module.exports = {
   entry: entry,
@@ -52,7 +53,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(t s|tsx)$/,
+        test: /\.(ts|tsx)$/,
         loader: "ts-loader"
       },
       { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
@@ -72,7 +73,7 @@ module.exports = {
       context: path.resolve(__dirname, "dist/dll"),
       manifest: require("./dist/dll/vendors.manifest.json")
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
     // new HtmlWebpackPlugin({
     //   template: path.resolve(__dirname, "public", "index.html"),
     // }),
