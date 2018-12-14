@@ -8,13 +8,13 @@ const config = {
     vendors
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist/dll"),
     filename: "[name].dll.js",
     library: "[name]_[hash:8]"
   },
   plugins: [
     new webpack.DllPlugin({
-      path: path.resolve(__dirname, "dist", "[name].manifest.json"),
+      path: path.resolve(__dirname, "dist/dll", "[name].manifest.json"),
       name: "[name]_[hash:8]"
     })
   ]
