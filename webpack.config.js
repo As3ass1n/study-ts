@@ -47,8 +47,8 @@ const htmlWebpackPlugins = pages.map(({ name }) => {
 
 module.exports = env => {
   console.log(env);
-  const { ifWatch, ifNotWatch } = getIfUtils(env, ["watch"]);
-  console.log(ifWatch);
+  const { ifWatch, ifNotWatch } = getIfUtils(env, ["watch", "prod"]);
+  console.log(ifNotWatch("production", "development"));
   return {
     mode: ifNotWatch("production", "development"),
     entry,
@@ -85,7 +85,7 @@ module.exports = env => {
         { enforce: "pre", test: /\.js|tsx?$/, loader: "source-map-loader" }
       ]
     },
-    plugins: [
+    plugins: removeEmpty([
       ifNotWatch(
         new CleanWebpackPlugin(["dist"], {
           root: path.resolve(__dirname),
@@ -104,7 +104,7 @@ module.exports = env => {
         ))
       }),
       new webpack.HotModuleReplacementPlugin()
-    ],
+    ]),
     devServer: {
       contentBase: path.resolve(__dirname, "dist"),
       // compress: true,
