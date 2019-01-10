@@ -26,9 +26,9 @@ class App extends Component<{}, IState> {
     const { todoList, value, completeList, filter } = this.state;
     console.log(completeList);
     const visibleTodos = {
-      [Filters.SHOW_ALL]: todoList,
-      [Filters.SHOW_COMPLETED]: todoList.filter(({ completed }) => completed),
-      [Filters.SHOW_ACTIVE]: todoList.filter(({ completed }) => !completed)
+      SHOW_ACTIVE: todoList.filter(({ completed }) => !completed),
+      SHOW_ALL: todoList,
+      SHOW_COMPLETED: todoList.filter(({ completed }) => completed)
     };
     return (
       <div>
@@ -69,37 +69,42 @@ class App extends Component<{}, IState> {
             })}
           </ul>
         </section>
-        <footer className="footer">
-          <ul className="filters">
-            <li>
-              <a
-                href=""
-                onClick={this.filterTodo(Filters.SHOW_ALL)}
-                className={filter === Filters.SHOW_ALL ? "selected" : ""}
-              >
-                All
-              </a>
-            </li>
-            <li>
-              <a
-                href=""
-                onClick={this.filterTodo(Filters.SHOW_ACTIVE)}
-                className={filter === Filters.SHOW_ACTIVE ? "selected" : ""}
-              >
-                Active
-              </a>
-            </li>
-            <li>
-              <a
-                href=""
-                onClick={this.filterTodo(Filters.SHOW_COMPLETED)}
-                className={filter === Filters.SHOW_COMPLETED ? "selected" : ""}
-              >
-                Completed
-              </a>
-            </li>
-          </ul>
-        </footer>
+        {visibleTodos.SHOW_ACTIVE.length ||
+        visibleTodos.SHOW_COMPLETED.length ? (
+          <footer className="footer">
+            <ul className="filters">
+              <li>
+                <a
+                  href=""
+                  onClick={this.filterTodo(Filters.SHOW_ALL)}
+                  className={filter === Filters.SHOW_ALL ? "selected" : ""}
+                >
+                  All
+                </a>
+              </li>
+              <li>
+                <a
+                  href=""
+                  onClick={this.filterTodo(Filters.SHOW_ACTIVE)}
+                  className={filter === Filters.SHOW_ACTIVE ? "selected" : ""}
+                >
+                  Active
+                </a>
+              </li>
+              <li>
+                <a
+                  href=""
+                  onClick={this.filterTodo(Filters.SHOW_COMPLETED)}
+                  className={
+                    filter === Filters.SHOW_COMPLETED ? "selected" : ""
+                  }
+                >
+                  Completed
+                </a>
+              </li>
+            </ul>
+          </footer>
+        ) : null}
       </div>
     );
   }
