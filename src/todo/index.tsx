@@ -34,45 +34,78 @@ class App extends Component<{}, IState> {
       <div>
         <div>
           <form onSubmit={this.handleTodoAdd}>
-            <input onChange={this.handleInput} value={value} />
+            <input
+              onChange={this.handleInput}
+              value={value}
+              className="new-todo"
+            />
           </form>
         </div>
-        <ul>
-          {visibleTodos[filter].map((todo, index) => {
-            return (
-              <li key={todo.value}>
-                <input type="checkbox" checked={todo.completed} onChange={this.handleComplete(index)} />
-                <span className={todo.completed ? "text" : ""}>
-                  {todo.value}
-                </span>
-                <button onClick={this.deleteTodo(index)}>删除</button>
-              </li>
-            );
-          })}
-        </ul>
-        <ul>
-          <li>
-            <a href="" onClick={this.filterTodo(Filters.SHOW_ALL)}>
-              All
-            </a>
-          </li>
-          <li>
-            <a href="" onClick={this.filterTodo(Filters.SHOW_ACTIVE)}>
-              Active
-            </a>
-          </li>
-          <li>
-            <a href="" onClick={this.filterTodo(Filters.SHOW_COMPLETED)}>
-              Completed
-            </a>
-          </li>
-        </ul>
+        <section className="main">
+          <ul className="todo-list">
+            {visibleTodos[filter].map((todo, index) => {
+              return (
+                <li
+                  key={todo.value}
+                  className={todo.completed ? "completed" : ""}
+                >
+                  <div className="view">
+                    <input
+                      className="toggle"
+                      type="checkbox"
+                      checked={todo.completed}
+                      onChange={this.handleComplete(index)}
+                    />
+                    <label className={todo.completed ? "text" : ""}>
+                      {todo.value}
+                    </label>
+                    <button
+                      className="destroy"
+                      onClick={this.deleteTodo(index)}
+                    />
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+        <footer className="footer">
+          <ul className="filters">
+            <li>
+              <a
+                href=""
+                onClick={this.filterTodo(Filters.SHOW_ALL)}
+                className={filter === Filters.SHOW_ALL ? "selected" : ""}
+              >
+                All
+              </a>
+            </li>
+            <li>
+              <a
+                href=""
+                onClick={this.filterTodo(Filters.SHOW_ACTIVE)}
+                className={filter === Filters.SHOW_ACTIVE ? "selected" : ""}
+              >
+                Active
+              </a>
+            </li>
+            <li>
+              <a
+                href=""
+                onClick={this.filterTodo(Filters.SHOW_COMPLETED)}
+                className={filter === Filters.SHOW_COMPLETED ? "selected" : ""}
+              >
+                Completed
+              </a>
+            </li>
+          </ul>
+        </footer>
       </div>
     );
   }
 
   private filterTodo = (filterType: string) => {
-    return (e:any) => {
+    return (e: any) => {
       e.preventDefault();
       this.setState({
         filter: filterType
