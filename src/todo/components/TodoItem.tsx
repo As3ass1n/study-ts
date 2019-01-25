@@ -1,7 +1,11 @@
 import React, { ChangeEvent, Component, MouseEvent } from "react";
 
 interface IProps {
-  todo: { value: string; completed: boolean };
+  todo: {
+    value: string;
+    completed: boolean;
+    id: number;
+  };
   handleComplete: (e: ChangeEvent) => void;
   deleteTodo: (e?: MouseEvent) => void;
 }
