@@ -29,7 +29,9 @@ const todos = (state: any[] = [], action: IActionType) => {
     case COMPLETE_TODO:
       console.log(state);
       return state.map(todo => {
-        return action.id === todo.id ? { ...todo, completed: true } : todo;
+        return action.id === todo.id
+          ? { ...todo, completed: !todo.completed }
+          : todo;
       });
     default:
       return state;
